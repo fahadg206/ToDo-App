@@ -10,10 +10,21 @@ button.addEventListener('click', () => {
     
     listItems.push(userText);
 
-    localStorage.setItem('ToDoItem', JSON.stringify(listItems))
+    const listArray = listItems.toString();
 
-    list.innerHTML = localStorage.getItem('ToDoItem')
+    localStorage.setItem('ToDoItem', JSON.stringify(listArray));
 
+    
+
+    list.innerHTML = localStorage.getItem('ToDoItem');
+
+   
+
+    
+    list.addEventListener('click', () => {
+        localStorage.removeItem('ToDoItem');
+        list.remove();
+    })
     
     
 
