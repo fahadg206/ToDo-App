@@ -1,29 +1,42 @@
 const userInput = document.getElementById('userinput');
 const button = document.getElementById('btn');
-const list = document.getElementById('demo');
+const listText = document.getElementById('demo');
+const list = document.getElementById('todo-list');
+
 
 let listItems = [];
 
 button.addEventListener('click', () => {
-    
+
+    let todo = document.createElement('li');
+
+    list.append(todo);
+
     const userText = userInput.value;
+
+    todo.innerHTML = userText;
+
+    listItems.push(todo.innerHTML);
+
+    localStorage.setItem('ToDoItem', JSON.stringify(listItems));
+
+    console.log(listItems)
+
+    userInput.value = '';
+
+   // listItems.forEach((element, index)) => {
+
+    //
+
     
-    listItems.push(userText);
-
-    const listArray = listItems.toString();
-
-    localStorage.setItem('ToDoItem', JSON.stringify(listArray));
-
-    
-
-    list.innerHTML = localStorage.getItem('ToDoItem');
+    JSON.parse(localStorage.getItem('ToDoItem'))
 
    
 
     
-    list.addEventListener('click', () => {
+    todo.addEventListener('click', () => {
         localStorage.removeItem('ToDoItem');
-        list.remove();
+        todo.remove();
     })
     
     
