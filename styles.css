@@ -1,4 +1,45 @@
-#demo {
-    cursor: pointer;
-    
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
+
+#container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    background: linear-gradient(rgb(140, 140, 218), white);
+}
+
+#container h2 {
+    font-size: 47px;
+    color: aliceblue;
+    text-shadow: black 3px 3px 5px;
+    text-align: center;
+}
+
+.todo p {
+    color: aliceblue;
+    text-align: center;
+    text-shadow: black 3px 3px 5px;
+    font-size: 18px;
+}
+
+#btn {
+    color: aliceblue;
+    
+    text-shadow: black 3px 3px 5px;
+    padding: 5px;
+    font-size: 15px;
+}
+
+#userinput {
+    padding: 6px;
+
+}
+
+.todo {
+    padding: 30px;
+}
+

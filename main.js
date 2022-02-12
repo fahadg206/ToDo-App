@@ -1,6 +1,5 @@
 const userInput = document.getElementById('userinput');
 const button = document.getElementById('btn');
-const listText = document.getElementById('demo');
 const list = document.getElementById('todo-list');
 
 
@@ -8,7 +7,7 @@ let listItems = [];
 
 button.addEventListener('click', () => {
 
-    let todo = document.createElement('li');
+    const todo = document.createElement('li');
 
     list.append(todo);
 
@@ -16,32 +15,32 @@ button.addEventListener('click', () => {
 
     todo.innerHTML = userText;
 
+    // list items STYLING //
+    todo.style.listStyleType = "number";
+    todo.style.cursor = "pointer";
+    todo.style.color = "aliceblue";
+    todo.style.fontSize = "22px";
+    todo.style.textAlign = "center";
+    todo.style.padding = "7px";
+    todo.style.fontWeight = "bold";
+    todo.style.textTransform = "capitalize";
+
     listItems.push(todo.innerHTML);
 
-    localStorage.setItem('ToDoItem', JSON.stringify(listItems));
+    localStorage.setItem(listItems.indexOf(todo.innerHTML), JSON.stringify(todo.innerHTML) );
 
-    console.log(listItems)
-
+    
+    //clear input box everytime a value is entered //
     userInput.value = '';
 
-   // listItems.forEach((element, index)) => {
-
-    //
-
+    console.log(listItems)
     
-    JSON.parse(localStorage.getItem('ToDoItem'))
-
    
-
-    
+    // remove li element on click //
     todo.addEventListener('click', () => {
-        localStorage.removeItem('ToDoItem');
-        todo.remove();
+        localStorage.removeItem(listItems.indexOf(todo.innerHTML)); //remove from storage
+        todo.remove(); // remove from the UI
     })
-    
-    
-
-    
     
     
 });
