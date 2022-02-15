@@ -19,7 +19,7 @@
     text-align: center;
 }
 
-.todo p {
+.todo .paragraph {
     color: aliceblue;
     text-align: center;
     text-shadow: black 3px 3px 5px;
