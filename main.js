@@ -41,8 +41,7 @@ button.addEventListener('click', () => {
         
         let listArray = JSON.parse(localStorage.getItem('todo'));
         
-
-        listArray.forEach((element) => {
+        listArray.forEach((element, index) => {
             let listTodo = document.createElement("li");
             listTodo.innerHTML = element;
             list.appendChild(listTodo);
@@ -54,16 +53,20 @@ button.addEventListener('click', () => {
             listTodo.style.padding = "7px";
             listTodo.style.fontWeight = "bold";
             listTodo.style.textTransform = "capitalize";
+            
+
 
             listTodo.addEventListener('click', () => {
                 // Remove from UI
                 listTodo.remove();
                 //Remove from local storage
-                localStorage.removeItem(element);
-                
+                listArray.splice(index, 1);
+                localStorage.setItem('todo', JSON.stringify(listArray))
             })
-        }) 
 
+            
+           
+        }) 
         
     }
 
