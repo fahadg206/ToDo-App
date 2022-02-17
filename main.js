@@ -55,7 +55,6 @@ button.addEventListener('click', () => {
             listTodo.style.textTransform = "capitalize";
             
 
-
             listTodo.addEventListener('click', () => {
                 // Remove from UI
                 listTodo.remove();
