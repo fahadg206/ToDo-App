@@ -3,13 +3,11 @@ const button = document.getElementById('btn');
 const list = document.getElementById('todo-list');
 const demo = document.getElementById('demo');
 
-let listItems = localStorage.getItem('todo');
 
-//Checking local storage for todos
+let listItems = localStorage.getItem('todo');
 checkLocalStorage();
 
 button.addEventListener('click', () => {
-    
     //creating listTodo element everytime button is clicked
     const todo = document.createElement('li');
     //appending listTodo element to html
@@ -20,7 +18,6 @@ button.addEventListener('click', () => {
     todo.innerHTML = userText;
     //push todo text to array
     listItems.push(todo.innerHTML);
-    
     //setting array list to local storage
     localStorage.setItem('todo', JSON.stringify(listItems));
     //clear input box everytime a value is entered //
@@ -40,20 +37,17 @@ button.addEventListener('click', () => {
 
 });
 
-
 //Check to see if local storage exists. If it does then post on UI//
 function checkLocalStorage() {
 
     if(listItems) {
-
+        
         listItems = JSON.parse(listItems);
-    
+        
         listItems.forEach((element, index) => {
             let listTodo = document.createElement("li");
             listTodo.innerHTML = element;
             list.appendChild(listTodo);
-
-            //styling//
             listTodo.style.listStyleType = "number";
             listTodo.style.cursor = "pointer";
             listTodo.style.color = "aliceblue";
@@ -62,15 +56,15 @@ function checkLocalStorage() {
             listTodo.style.padding = "7px";
             listTodo.style.fontWeight = "bold";
             listTodo.style.textTransform = "capitalize";
-            
-
+        
             listTodo.addEventListener('click', () => {
                 // Remove from UI
                 listTodo.remove();
                 //Remove from local storage
                 listItems.splice(index, 1);
                 localStorage.setItem('todo', JSON.stringify(listItems))
-            }) 
+            })
         }) 
-    } 
+    }
 }
+       
