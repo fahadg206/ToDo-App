@@ -4,7 +4,8 @@ const list = document.getElementById('todo-list');
 const demo = document.getElementById('demo');
 
 
-let listItems = [];
+let listItems = localStorage.getItem('todo');
+checkLocalStorage();
 
 button.addEventListener('click', () => {
     //creating listTodo element everytime button is clicked
@@ -37,11 +38,13 @@ button.addEventListener('click', () => {
 });
 
 //Check to see if local storage exists. If it does then post on UI//
-    if(localStorage.getItem('todo')) {
+function checkLocalStorage() {
+
+    if(listItems) {
         
-        let listArray = JSON.parse(localStorage.getItem('todo'));
+        listItems = JSON.parse(listItems);
         
-        listArray.forEach((element, index) => {
+        listItems.forEach((element, index) => {
             let listTodo = document.createElement("li");
             listTodo.innerHTML = element;
             list.appendChild(listTodo);
@@ -53,21 +56,15 @@ button.addEventListener('click', () => {
             listTodo.style.padding = "7px";
             listTodo.style.fontWeight = "bold";
             listTodo.style.textTransform = "capitalize";
-            
-
-
+        
             listTodo.addEventListener('click', () => {
                 // Remove from UI
                 listTodo.remove();
                 //Remove from local storage
-                listArray.splice(index, 1);
-                localStorage.setItem('todo', JSON.stringify(listArray))
+                listItems.splice(index, 1);
+                localStorage.setItem('todo', JSON.stringify(listItems))
             })
-
-            
-           
         }) 
-        
     }
-
+}
        
