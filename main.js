@@ -3,10 +3,13 @@ const button = document.getElementById('btn');
 const list = document.getElementById('todo-list');
 const demo = document.getElementById('demo');
 
+let listItems = localStorage.getItem('todo');
 
-let listItems = [];
+//Checking local storage for todos
+checkLocalStorage();
 
 button.addEventListener('click', () => {
+    
     //creating listTodo element everytime button is clicked
     const todo = document.createElement('li');
     //appending listTodo element to html
@@ -17,6 +20,7 @@ button.addEventListener('click', () => {
     todo.innerHTML = userText;
     //push todo text to array
     listItems.push(todo.innerHTML);
+    
     //setting array list to local storage
     localStorage.setItem('todo', JSON.stringify(listItems));
     //clear input box everytime a value is entered //
@@ -36,15 +40,20 @@ button.addEventListener('click', () => {
 
 });
 
+
 //Check to see if local storage exists. If it does then post on UI//
-    if(localStorage.getItem('todo')) {
-        
-        let listArray = JSON.parse(localStorage.getItem('todo'));
-        
-        listArray.forEach((element, index) => {
+function checkLocalStorage() {
+
+    if(listItems) {
+
+        listItems = JSON.parse(listItems);
+    
+        listItems.forEach((element, index) => {
             let listTodo = document.createElement("li");
             listTodo.innerHTML = element;
             list.appendChild(listTodo);
+
+            //styling//
             listTodo.style.listStyleType = "number";
             listTodo.style.cursor = "pointer";
             listTodo.style.color = "aliceblue";
@@ -59,14 +68,9 @@ button.addEventListener('click', () => {
                 // Remove from UI
                 listTodo.remove();
                 //Remove from local storage
-                listArray.splice(index, 1);
-                localStorage.setItem('todo', JSON.stringify(listArray))
-            })
-
-            
-           
+                listItems.splice(index, 1);
+                localStorage.setItem('todo', JSON.stringify(listItems))
+            }) 
         }) 
-        
-    }
-
-       
+    } 
+}
