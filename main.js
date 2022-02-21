@@ -65,6 +65,16 @@ function checkLocalStorage() {
                 localStorage.setItem('todo', JSON.stringify(listItems))
             })
         }) 
+    } else {
+
+        axios.get('https://jsonplaceholder.typicode.com/todos')
+        .then(response => {
+            for(let i=0; i < 5; i++) {
+                const preTodo = response.data[i].title;
+                listItems.push(preTodo);
+            }
+        })
     }
 }
+
        
