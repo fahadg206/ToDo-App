@@ -35,6 +35,15 @@ button.addEventListener('click', () => {
     todo.style.fontWeight = "bold";
     todo.style.textTransform = "capitalize";
 
+    // delete todos //
+    todo.addEventListener('click', (index) => {
+        // Remove from UI
+        todo.remove();
+        //Remove from local storage
+        listItems.splice(index, 1);
+        localStorage.setItem('todo', JSON.stringify(listItems))
+    })
+
 });
 
 //Check to see if local storage exists. If it does then post on UI//
@@ -42,7 +51,7 @@ function checkLocalStorage() {
 
     if(listItems) {
         
-        listItems = JSON.parse(listItems);
+       listItems = JSON.parse(localStorage.getItem('todo'))
         
         listItems.forEach((element, index) => {
             let listTodo = document.createElement("li");
@@ -65,16 +74,17 @@ function checkLocalStorage() {
                 localStorage.setItem('todo', JSON.stringify(listItems))
             })
         }) 
-    } else {
-
+    } else if (listItems.length === 0) {
         axios.get('https://jsonplaceholder.typicode.com/todos')
         .then(response => {
-            for(let i=0; i < 5; i++) {
-                const preTodo = response.data[i].title;
-                listItems.push(preTodo);
-            }
-        })
+          for (let i=0; i < 5; i++) {
+            const preTodo = response.data[i].title;
+            listItems.push(preTodo);
+            console.log(listItems)
+          }
+          })
     }
 }
 
+       
        
