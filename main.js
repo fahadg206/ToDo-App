@@ -50,9 +50,27 @@ button.addEventListener('click', () => {
 function checkLocalStorage() {
 
     if(listItems) {
-        
-       listItems = JSON.parse(localStorage.getItem('todo'))
-        
+
+        displayUI();
+       
+    } else {
+        listItems = [];
+        axios.get('https://jsonplaceholder.typicode.com/todos')
+        .then(response => {
+          for (let i=0; i < 5; i++) {
+            const preTodo = response.data[i].title;
+            listItems.push(preTodo);
+            console.log(listItems)
+          }
+          localStorage.setItem('todo', JSON.stringify(listItems))
+          displayUI();
+          })
+    }
+}
+
+       
+       function displayUI() {
+        listItems = JSON.parse(localStorage.getItem('todo'))
         listItems.forEach((element, index) => {
             let listTodo = document.createElement("li");
             listTodo.innerHTML = element;
@@ -65,6 +83,7 @@ function checkLocalStorage() {
             listTodo.style.padding = "7px";
             listTodo.style.fontWeight = "bold";
             listTodo.style.textTransform = "capitalize";
+           
         
             listTodo.addEventListener('click', () => {
                 // Remove from UI
@@ -74,17 +93,4 @@ function checkLocalStorage() {
                 localStorage.setItem('todo', JSON.stringify(listItems))
             })
         }) 
-    } else if (listItems.length === 0) {
-        axios.get('https://jsonplaceholder.typicode.com/todos')
-        .then(response => {
-          for (let i=0; i < 5; i++) {
-            const preTodo = response.data[i].title;
-            listItems.push(preTodo);
-            console.log(listItems)
-          }
-          })
-    }
-}
-
-       
-       
+       }
