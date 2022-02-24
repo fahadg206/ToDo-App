@@ -36,13 +36,13 @@ button.addEventListener('click', () => {
     todo.style.textTransform = "capitalize";
 
     // delete todos //
-    todo.addEventListener('click', (index) => {
+    todo.onclick = (index) => {
         // Remove from UI
         todo.remove();
         //Remove from local storage
         listItems.splice(index, 1);
         localStorage.setItem('todo', JSON.stringify(listItems))
-    })
+    }
 
 });
 
@@ -85,12 +85,12 @@ function checkLocalStorage() {
             listTodo.style.textTransform = "capitalize";
            
         
-            listTodo.addEventListener('click', () => {
+            listTodo.onclick = (index) => {
                 // Remove from UI
                 listTodo.remove();
                 //Remove from local storage
                 listItems.splice(index, 1);
                 localStorage.setItem('todo', JSON.stringify(listItems))
-            })
+            }
         }) 
        }
