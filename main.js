@@ -36,12 +36,8 @@ button.addEventListener('click', () => {
     todo.style.textTransform = "capitalize";
 
     // delete todos //
-    todo.onclick = (index) => {
-        // Remove from UI
-        todo.remove();
-        //Remove from local storage
-        listItems.splice(index, 1);
-        localStorage.setItem('todo', JSON.stringify(listItems))
+    todo.onclick = () => {
+        deleteTodos();
     }
 
 });
@@ -84,13 +80,18 @@ function checkLocalStorage() {
             listTodo.style.fontWeight = "bold";
             listTodo.style.textTransform = "capitalize";
            
-        
-            listTodo.onclick = (index) => {
-                // Remove from UI
-                listTodo.remove();
-                //Remove from local storage
-                listItems.splice(index, 1);
-                localStorage.setItem('todo', JSON.stringify(listItems))
+            
+            listTodo.onclick = () => {
+               deleteTodos();
             }
         }) 
+       }
+       
+       //delete function with index as parameter//
+       function deleteTodos(element,index) {
+            // Remove from UI
+            element.remove();
+            //Remove from local storage
+            listItems.splice(index, 1);
+            localStorage.setItem('todo', JSON.stringify(listItems))
        }
