@@ -37,7 +37,7 @@ button.addEventListener('click', () => {
 
     // delete todos //
     todo.onclick = () => {
-        deleteTodos();
+        deleteTodos(todo, index);
     }
 
 });
@@ -82,16 +82,22 @@ function checkLocalStorage() {
            
             
             listTodo.onclick = () => {
-               deleteTodos();
+                deleteTodos(listTodo, index);
             }
+
+        
         }) 
-       }
+        }
        
        //delete function with index as parameter//
-       function deleteTodos(element,index) {
+       function deleteTodos(element, index) {
             // Remove from UI
             element.remove();
             //Remove from local storage
             listItems.splice(index, 1);
+            //Update local storage after delete//
             localStorage.setItem('todo', JSON.stringify(listItems))
-       }
+        }
+
+
+        //localStorage.removeItem('todo')//
