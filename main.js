@@ -37,10 +37,10 @@ button.addEventListener('click', () => {
 
     // delete todos //
     todo.onclick = () => {
-        deleteTodos(todo, index);
-    }
+        deleteTodos(todo, todo.innerHTML); 
+    } 
 
-});
+}); 
 
 //Check to see if local storage exists. If it does then post on UI//
 function checkLocalStorage() {
@@ -56,15 +56,14 @@ function checkLocalStorage() {
           for (let i=0; i < 5; i++) {
             const preTodo = response.data[i].title;
             listItems.push(preTodo);
-            console.log(listItems)
+            //console.log(listItems)//
+            
           }
           localStorage.setItem('todo', JSON.stringify(listItems))
           displayUI();
           })
     }
 }
-
-       
        function displayUI() {
         listItems = JSON.parse(localStorage.getItem('todo'))
         listItems.forEach((element, index) => {
@@ -80,23 +79,27 @@ function checkLocalStorage() {
             listTodo.style.fontWeight = "bold";
             listTodo.style.textTransform = "capitalize";
            
-            
             listTodo.onclick = () => {
-                deleteTodos(listTodo, index);
+                deleteTodos(listTodo, element);
+                console.log('deleted index: ' + index)
+                console.log(element);
+        
             }
 
-        
         }) 
         }
        
        //delete function with index as parameter//
-       function deleteTodos(element, index) {
+       function deleteTodos(element, todoName) {
             // Remove from UI
             element.remove();
+            console.log("Before: " + listItems)
             //Remove from local storage
-            listItems.splice(index, 1);
+            listItems.splice(listItems.indexOf(todoName), 1);
             //Update local storage after delete//
             localStorage.setItem('todo', JSON.stringify(listItems))
+            console.log("After: " + listItems)
+            
         }
 
 
