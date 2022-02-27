@@ -22,21 +22,23 @@ function addTodo() {
     };
 
     console.log(todoObj)
-    listItems.push(todoObj.todoItem);
+    listItems.push(todoObj);
 
     //Store todos in local storage//
     localStorage.setItem('todo', JSON.stringify(listItems));
 
      // delete todos //
-     todoObj.onclick = () => {
-       // Remove from UI
-       todoObj.todoItem.remove();
-       //Remove from local storage
-       listItems.splice(listItems.todoObj.id, 1);
-       //Update local storage after delete//
-       localStorage.setItem('todo', JSON.stringify(listItems))   
+     todo.onclick = () => {
+        for(let i=0; i <listItems.length; i++ ) {
+            if(todoObj.id === listItems[i].id) {
+                todo.remove()
+                //Remove from local storage
+                listItems.splice(i, 1);
+                //Update local storage after delete//
+                localStorage.setItem('todo', JSON.stringify(listItems))   
+            }
+        }
     } 
-
 
     // list items STYLING //
     todo.style.listStyleType = "number";
@@ -51,7 +53,7 @@ function addTodo() {
 
 // action on the button click //
 button.addEventListener('click', () => {
-
+    
     addTodo();
     
     //clear input box everytime a value is entered //
@@ -89,7 +91,12 @@ function checkLocalStorage() {
         listItems = JSON.parse(localStorage.getItem('todo'))
         listItems.forEach((element, index) => {
             let listTodo = document.createElement("li");
-            listTodo.innerHTML = element;
+            //checking to see if element contains todoItem value, if it does, equal it to todo.
+            if(element.todoItem) {
+                listTodo.innerHTML = element.todoItem;
+            } else {
+                listTodo.innerHTML = element;
+            }
             list.appendChild(listTodo);
             listTodo.style.listStyleType = "number";
             listTodo.style.cursor = "pointer";
@@ -100,21 +107,20 @@ function checkLocalStorage() {
             listTodo.style.fontWeight = "bold";
             listTodo.style.textTransform = "capitalize";
 
-
             const refreshTodoObj = {
                 listTodo,
                 id: Date.now(),
             };
+
+           console.log(refreshTodoObj)
            
             listTodo.onclick = () => {
                 deleteTodos(listTodo, element);
                 console.log('deleted index: ' + index)
                 console.log(element);
-        
-            }
-
+            } 
         }) 
-        }
+        } 
        
        //delete function with index as parameter//
        function deleteTodos(element, todoName) {
