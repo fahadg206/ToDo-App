@@ -7,24 +7,37 @@ const demo = document.getElementById('demo');
 let listItems = localStorage.getItem('todo');
 checkLocalStorage();
 
-button.addEventListener('click', () => {
-    //creating listTodo element everytime button is clicked
+
+
+function addTodo() {
     const todo = document.createElement('li');
-    //appending listTodo element to html
     list.append(todo);
-    //user value everytime they input a todo
     const userText = userInput.value;
-    //change the listTodo text to equal user input
     todo.innerHTML = userText;
-    //push todo text to array
-    listItems.push(todo.innerHTML);
-    //setting array list to local storage
+
+    //each todo has its own unique id //
+    const todoObj = {
+        todoItem: todo.innerHTML,
+        id: Date.now(),
+    };
+
+    console.log(todoObj)
+    listItems.push(todoObj.todoItem);
+
+    //Store todos in local storage//
     localStorage.setItem('todo', JSON.stringify(listItems));
-    //clear input box everytime a value is entered //
-    userInput.value = '';
-    //Grabbing items from local storage
-    localStorage.getItem('todo');  
-    
+
+     // delete todos //
+     todoObj.onclick = () => {
+       // Remove from UI
+       todoObj.todoItem.remove();
+       //Remove from local storage
+       listItems.splice(listItems.todoObj.id, 1);
+       //Update local storage after delete//
+       localStorage.setItem('todo', JSON.stringify(listItems))   
+    } 
+
+
     // list items STYLING //
     todo.style.listStyleType = "number";
     todo.style.cursor = "pointer";
@@ -33,12 +46,19 @@ button.addEventListener('click', () => {
     todo.style.textAlign = "center";
     todo.style.padding = "7px";
     todo.style.fontWeight = "bold";
-    todo.style.textTransform = "capitalize";
+    todo.style.textTransform = "capitalize"; 
+}
 
-    // delete todos //
-    todo.onclick = () => {
-        deleteTodos(todo, todo.innerHTML); 
-    } 
+// action on the button click //
+button.addEventListener('click', () => {
+
+    addTodo();
+    
+    //clear input box everytime a value is entered //
+    userInput.value = '';
+
+    //Grabbing items from local storage
+    localStorage.getItem('todo');  
 
 }); 
 
@@ -64,6 +84,7 @@ function checkLocalStorage() {
           })
     }
 }
+
        function displayUI() {
         listItems = JSON.parse(localStorage.getItem('todo'))
         listItems.forEach((element, index) => {
@@ -78,6 +99,12 @@ function checkLocalStorage() {
             listTodo.style.padding = "7px";
             listTodo.style.fontWeight = "bold";
             listTodo.style.textTransform = "capitalize";
+
+
+            const refreshTodoObj = {
+                listTodo,
+                id: Date.now(),
+            };
            
             listTodo.onclick = () => {
                 deleteTodos(listTodo, element);
@@ -104,5 +131,5 @@ function checkLocalStorage() {
 
 
 
-        
+        //listItems.splice(listItems.indexOf(todoName), 1);//
         //localStorage.removeItem('todo')//
