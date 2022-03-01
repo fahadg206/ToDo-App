@@ -10,34 +10,23 @@ checkLocalStorage();
 
 
 function addTodo() {
-    const todo = document.createElement('li');
-    list.append(todo);
     const userText = userInput.value;
+    const todo = document.createElement('li');
     todo.innerHTML = userText;
-
+    list.append(todo);
     //each todo has its own unique id //
     const todoObj = {
         todoItem: todo.innerHTML,
         id: Date.now(),
     };
-
+    //logging todoObj for personal use//
     console.log(todoObj)
     listItems.push(todoObj);
-
     //Store todos in local storage//
     localStorage.setItem('todo', JSON.stringify(listItems));
-
      // delete todos //
      todo.onclick = () => {
-        for(let i=0; i <listItems.length; i++ ) {
-            if(todoObj.id === listItems[i].id) {
-                todo.remove()
-                //Remove from local storage
-                listItems.splice(i, 1);
-                //Update local storage after delete//
-                localStorage.setItem('todo', JSON.stringify(listItems))   
-            }
-        }
+        deleteObjTodo(todoObj, todo)
     } 
 
     // list items STYLING //
@@ -51,26 +40,33 @@ function addTodo() {
     todo.style.textTransform = "capitalize"; 
 }
 
+function deleteObjTodo(todoObj, todo) {
+    for(let i=0; i <listItems.length; i++ ) {
+        if(todoObj.id === listItems[i].id) {
+            todo.remove()
+            //Remove from local storage
+            listItems.splice(i, 1);
+            //Update local storage after delete//
+            localStorage.setItem('todo', JSON.stringify(listItems))   
+        }
+    }
+}
+
 // action on the button click //
 button.addEventListener('click', () => {
-    
+    //Calling addTodo Function on the button click//
     addTodo();
-    
     //clear input box everytime a value is entered //
     userInput.value = '';
-
     //Grabbing items from local storage
     localStorage.getItem('todo');  
-
 }); 
 
 //Check to see if local storage exists. If it does then post on UI//
 function checkLocalStorage() {
-
     if(listItems) {
-
+        //display todos on UI if local storage exists on the refresh//
         displayUI();
-       
     } else {
         listItems = [];
         axios.get('https://jsonplaceholder.typicode.com/todos')
@@ -78,8 +74,6 @@ function checkLocalStorage() {
           for (let i=0; i < 5; i++) {
             const preTodo = response.data[i].title;
             listItems.push(preTodo);
-            //console.log(listItems)//
-            
           }
           localStorage.setItem('todo', JSON.stringify(listItems))
           displayUI();
@@ -97,7 +91,6 @@ function checkLocalStorage() {
             } else {
                 listTodo.innerHTML = element;
             }
-            list.appendChild(listTodo);
             listTodo.style.listStyleType = "number";
             listTodo.style.cursor = "pointer";
             listTodo.style.color = "aliceblue";
@@ -106,36 +99,35 @@ function checkLocalStorage() {
             listTodo.style.padding = "7px";
             listTodo.style.fontWeight = "bold";
             listTodo.style.textTransform = "capitalize";
-
-            const refreshTodoObj = {
-                listTodo,
+            //append listTodo into html list//
+            list.appendChild(listTodo);
+            //pushing each listTodo into an object with it's own ID//
+            const todoObj = {
+                todoItem: listTodo.innerHTML,
                 id: Date.now(),
             };
-
-           console.log(refreshTodoObj)
-           
+            console.log(todoObj)
+            
+            console.log("This is list items: " + listItems)
+            //delete todos that are refreshed//
             listTodo.onclick = () => {
-                deleteTodos(listTodo, element);
-                console.log('deleted index: ' + index)
-                console.log(element);
+                deleteRefreshTodos(listTodo, element);
             } 
         }) 
         } 
        
        //delete function with index as parameter//
-       function deleteTodos(element, todoName) {
-            // Remove from UI
-            element.remove();
-            console.log("Before: " + listItems)
-            //Remove from local storage
-            listItems.splice(listItems.indexOf(todoName), 1);
-            //Update local storage after delete//
-            localStorage.setItem('todo', JSON.stringify(listItems))
-            console.log("After: " + listItems)
-            
+       function deleteRefreshTodos(todoObj, listTodo) {
+        for(let i=0; i <listItems.length; i++ ) {
+            if(todoObj.id === listItems[i].id) {
+                listTodo.remove()
+                //Remove from local storage
+                listItems.splice(i, 1);
+                //Update local storage after delete//
+                localStorage.setItem('todo', JSON.stringify(listItems))   
+            }
         }
-
-
+        }
 
         //listItems.splice(listItems.indexOf(todoName), 1);//
         //localStorage.removeItem('todo')//
