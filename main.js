@@ -107,7 +107,7 @@ function checkLocalStorage() {
                 id: Date.now(),
             };
             console.log(todoObj)
-            
+            listItems.push(todoObj)
             console.log("This is list items: " + listItems)
             //delete todos that are refreshed//
             listTodo.onclick = () => {
