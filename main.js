@@ -26,7 +26,7 @@ function addTodo() {
     localStorage.setItem('todo', JSON.stringify(listItems));
      // delete todos //
      todo.onclick = () => {
-        deleteObjTodo(todoObj, todo)
+        deleteTodos(todoObj, todo)
     } 
 
     // list items STYLING //
@@ -38,18 +38,6 @@ function addTodo() {
     todo.style.padding = "7px";
     todo.style.fontWeight = "bold";
     todo.style.textTransform = "capitalize"; 
-}
-
-function deleteObjTodo(todoObj, todo) {
-    for(let i=0; i <listItems.length; i++ ) {
-        if(todoObj.id === listItems[i].id) {
-            todo.remove()
-            //Remove from local storage
-            listItems.splice(i, 1);
-            //Update local storage after delete//
-            localStorage.setItem('todo', JSON.stringify(listItems))   
-        }
-    }
 }
 
 // action on the button click //
@@ -73,11 +61,18 @@ function checkLocalStorage() {
         .then(response => {
           for (let i=0; i < 5; i++) {
             const preTodo = response.data[i].title;
-            listItems.push(preTodo);
+           //putting API todos into object and giving unique ID//
+           const todoObj = {
+            todoItem: preTodo,
+            id: i + Date.now(),
+            }
+            //pushing API todo objects into listItems array//
+            listItems.push(todoObj)
+            console.log(todoObj)
           }
           localStorage.setItem('todo', JSON.stringify(listItems))
           displayUI();
-          })
+        })
     }
 }
 
@@ -85,12 +80,7 @@ function checkLocalStorage() {
         listItems = JSON.parse(localStorage.getItem('todo'))
         listItems.forEach((element, index) => {
             let listTodo = document.createElement("li");
-            //checking to see if element contains todoItem value, if it does, equal it to todo.
-            if(element.todoItem) {
-                listTodo.innerHTML = element.todoItem;
-            } else {
-                listTodo.innerHTML = element;
-            }
+            listTodo.innerHTML = element.todoItem;
             listTodo.style.listStyleType = "number";
             listTodo.style.cursor = "pointer";
             listTodo.style.color = "aliceblue";
@@ -101,33 +91,24 @@ function checkLocalStorage() {
             listTodo.style.textTransform = "capitalize";
             //append listTodo into html list//
             list.appendChild(listTodo);
-            //pushing each listTodo into an object with it's own ID//
-            const todoObj = {
-                todoItem: listTodo.innerHTML,
-                id: Date.now(),
-            };
-            console.log(todoObj)
-            listItems.push(todoObj)
-            console.log("This is list items: " + listItems)
             //delete todos that are refreshed//
             listTodo.onclick = () => {
-                deleteRefreshTodos(listTodo, element);
+                deleteTodos(element, listTodo);
             } 
         }) 
         } 
        
        //delete function with index as parameter//
-       function deleteRefreshTodos(todoObj, listTodo) {
+       function deleteTodos(todoObject, todo) {
         for(let i=0; i <listItems.length; i++ ) {
-            if(todoObj.id === listItems[i].id) {
-                listTodo.remove()
+            if(todoObject.id === listItems[i].id) {
+                todo.remove()
                 //Remove from local storage
                 listItems.splice(i, 1);
                 //Update local storage after delete//
                 localStorage.setItem('todo', JSON.stringify(listItems))   
             }
         }
-        }
+    }
 
-        //listItems.splice(listItems.indexOf(todoName), 1);//
-        //localStorage.removeItem('todo')//
+       
